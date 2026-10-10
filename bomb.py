@@ -1,4 +1,4 @@
-"""Elitzur–Vaidman bomb tester circuits for Venture Bomb.
+"""Elitzur–Vaidman bomb tester circuits for TRs Quantum Bomb Testing.
 
 q0 is the photon: 0 = safe path, 1 = bomb path. A live bomb is modelled as a
 CNOT that records the photon's path on a bomb qubit (or, for large N, a

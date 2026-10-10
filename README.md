@@ -1,8 +1,8 @@
-# Venture Bomb
+# TRs Quantum Bomb Testing
 
 Prove a bomb is live without letting light touch it.
 
-Venture Bomb is a game built on the **Elitzur–Vaidman bomb tester** (1993). You inspect a crate of bombs. Some are live and some are duds, and the only sensor that can tell them apart sets off a live bomb the moment light reaches it. Classically, every test of a live bomb is an explosion. With the quantum tester you can prove a bomb is live while the photon never touches it: 25% of the time with the basic setup, and over 90% with the Zeno upgrade.
+TRs Quantum Bomb Testing is a game built on the **Elitzur–Vaidman bomb tester** (1993). You inspect a crate of bombs. Some are live and some are duds, and the only sensor that can tell them apart sets off a live bomb the moment light reaches it. Classically, every test of a live bomb is an explosion. With the quantum tester you can prove a bomb is live while the photon never touches it: 25% of the time with the basic setup, and over 90% with the Zeno upgrade.
 
 Every in-game outcome is a real shot from a Qiskit circuit. Python runs the circuits and saves each shot to a pool (`pools.json`); the browser draws the next shot from the matching pool. This is the same quantum math, run on simulated qubits; the original experiments used real photons.
 
@@ -61,34 +61,39 @@ The noisy curves are flat near their peaks, so the best N moves by a few steps b
 
 ## How to run
 
-**On Qollab:** press Run. `main.py` needs only Qiskit, so it runs in the in-browser playground on the free simulator. It checks the safe-proof rates against theory and inspects one crate with live shots.
+**On Qollab (the full game):** upload every file below at the top level of the project, then press Run with the built-in simulator. Because the project has `index.html` and `main.js`, Qollab runs it as a JS project and shows the game above the console. `main.js` starts the game, and `shipped_data.py` reads `pools.json` and `noise_results.json` in Python and passes them to the page, since JavaScript on Qollab cannot read project files. Press Stop when you are done playing.
+
+**The Qiskit check, in Python:** `main.py` needs only Qiskit. It prints the safe-proof rates against theory and inspects one crate with live shots. Run it with `python main.py`, or on Qollab in a Python-only copy of the project (without `index.html` and `main.js`).
 
 **The full game, locally:**
 
 ```
-pip install qiskit qiskit-aer
+pip install -r requirements.txt   # qiskit, numpy, qiskit-aer
 python generate_pools.py   # writes pools.json (ideal pools for Levels 1-3, noisy pools for Level 4)
 python noise_study.py      # writes noise_results.json and prints the best N per noise level
 python -m http.server      # then open http://localhost:8000
 ```
 
-Opening `index.html` straight from disk will not work: the browser blocks `fetch("pools.json")` on `file://`.
+Opening `index.html` straight from disk will not work: the browser blocks `fetch("pools.json")` on `file://`. The same files also work on GitHub Pages, where `web.js` starts the game.
 
 ## Files
 
 ```
-dark-port/
 ├── README.md            project page
+├── requirements.txt     dependencies: qiskit, numpy, qiskit-aer
 ├── LICENSE              MIT
-├── main.py              Qollab entry point: press Run (Qiskit only)
+├── index.html           game screens (Qollab uses it as the page body)
+├── main.css             game styles, scoped under .trqbt
+├── game.js              game logic: startGame(root, data loaders)
+├── main.js              Qollab entry: gets the data from Python, starts the game
+├── shipped_data.py      reads pools.json and noise_results.json for main.js
+├── web.js               normal web page entry (local or GitHub Pages): fetches the JSON
+├── main.py              Qiskit check: theory table plus one crate of live shots
 ├── bomb.py              basic_tester, zeno_tester, zeno_midcircuit, classify, noise helpers
 ├── generate_pools.py    runs the circuits, writes pools.json
 ├── noise_study.py       technical extension: best N under noise
 ├── pools.json           500 shots per pool (L live, D dud, B boom, U inconclusive)
-├── noise_results.json   noise study output used by the project page chart
-├── index.html           game screens
-├── game.js              game logic, reads pools.json
-└── style.css
+└── noise_results.json   noise study output used by the project page chart
 ```
 
 ## Accessibility
@@ -107,6 +112,6 @@ Every result is announced in words through an `aria-live` region and shown as an
 - P. G. Kwiat et al., "High-efficiency quantum interrogation measurements via the quantum Zeno effect," *Physical Review Letters* 83, 4725 (1999).
 - Built with [Qiskit](https://www.ibm.com/quantum/qiskit) and [Qiskit Aer](https://github.com/Qiskit/qiskit-aer).
 - Fonts: Big Shoulders Stencil Display, Atkinson Hyperlegible and JetBrains Mono (Google Fonts).
-- AI help: the circuits, the game code were written with help from Claude (Anthropic).
+- AI help: the circuits and the game code were written with help from Claude (Anthropic).
 
 This effort is supported by Qollab & IonQ

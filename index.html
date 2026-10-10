@@ -1,19 +1,15 @@
 <!doctype html>
-<html lang="en">
-<head>
+<!-- TRs Quantum Bomb Testing. On Qollab this file is used as body content and main.js runs it;
+     in a normal web page web.js runs it (python -m http.server, or GitHub Pages). -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Venture Bomb</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+<title>TRs Quantum Bomb Testing</title>
+<link rel="stylesheet" href="main.css">
+<div class="trqbt" id="trqbt-app">
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>Venture <span>Bomb</span></h1>
+      <h1>TRs Quantum <span>Bomb</span> Testing</h1>
       <p class="tag">Prove a bomb is live without letting light touch it. A game built on the Elitzur–Vaidman bomb tester, where every outcome is a real Qiskit shot.</p>
     </div>
     <nav class="tabs" aria-label="Sections">
@@ -173,7 +169,7 @@
   <section id="view-about" aria-labelledby="tab-about" hidden>
     <article class="about">
       <h2>What it does</h2>
-      <p>Venture Bomb is a game about the Elitzur–Vaidman bomb tester. You inspect a crate of bombs. Some are live and some are duds, and the only sensor that can tell them apart sets off a live bomb the moment light reaches it. Classically, every test of a live bomb is an explosion. With the quantum tester you can prove a bomb is live while the photon never touches it: 25% of the time with the basic setup, and over 90% with the Zeno upgrade.</p>
+      <p>TRs Quantum Bomb Testing is a game about the Elitzur–Vaidman bomb tester. You inspect a crate of bombs. Some are live and some are duds, and the only sensor that can tell them apart sets off a live bomb the moment light reaches it. Classically, every test of a live bomb is an explosion. With the quantum tester you can prove a bomb is live while the photon never touches it: 25% of the time with the basic setup, and over 90% with the Zeno upgrade.</p>
       <p>Every outcome in the game is a real shot from a Qiskit circuit. Python runs the circuits and saves each shot to a pool; the game draws the next shot from the matching pool. This is the same quantum math, run on simulated qubits. The original experiments used real photons.</p>
 
       <h2>Credits: the Elitzur–Vaidman bomb tester</h2>
@@ -183,7 +179,7 @@
         <li>P. Kwiat, H. Weinfurter, T. Herzog, A. Zeilinger and M. A. Kasevich, “Interaction-free measurement,” <em>Physical Review Letters</em> 74, 4763 (1995). The first photon demonstration, which also proposed the Zeno version.</li>
         <li>P. G. Kwiat, A. G. White, J. R. Mitchell, O. Nairz, G. Weihs, H. Weinfurter and A. Zeilinger, “High-efficiency quantum interrogation measurements via the quantum Zeno effect,” <em>Physical Review Letters</em> 83, 4725 (1999).</li>
       </ol>
-      <p>Built with <a href="https://www.ibm.com/quantum/qiskit" target="_blank" rel="noopener">Qiskit</a> and <a href="https://github.com/Qiskit/qiskit-aer" target="_blank" rel="noopener">Qiskit Aer</a>. Fonts: Big Shoulders Stencil, Atkinson Hyperlegible and JetBrains Mono from Google Fonts. AI help: the hackathon build guide, the circuits, the game code and this page were written with help from Claude (Anthropic). Released under the MIT license.</p>
+      <p>Built with <a href="https://www.ibm.com/quantum/qiskit" target="_blank" rel="noopener">Qiskit</a> and <a href="https://github.com/Qiskit/qiskit-aer" target="_blank" rel="noopener">Qiskit Aer</a>. Fonts: Big Shoulders Stencil, Atkinson Hyperlegible and JetBrains Mono from Google Fonts. AI help: the circuits and the game code were written with help from Claude (Anthropic). Released under the MIT license.</p>
 
       <h2>The problem it explores</h2>
       <p>A live bomb acts as a measurement. With a dud, the photon's two paths interfere at the second H gate and the detector always reads 0. A live bomb checks which path the photon took, which destroys the interference, so sometimes the detector reads 1. A dud can never produce that 1, so a 1 proves the bomb is live, and in that run the photon went the safe way.</p>
@@ -197,6 +193,7 @@
       <div class="panel tablewrap"><table class="data" id="resultsTable"></table></div>
 
       <h2>How to run</h2>
+      <p>On Qollab, press Run with the built-in simulator: the game appears above the console, and Python (<code>shipped_data.py</code>) hands it the shot pools. To run it yourself:</p>
       <p class="formula">pip install qiskit qiskit-aer<br>python generate_pools.py &nbsp;&nbsp;# writes pools.json<br>python noise_study.py &nbsp;&nbsp;&nbsp;&nbsp;# writes noise_results.json<br>python -m http.server &nbsp;&nbsp;&nbsp;&nbsp;# open localhost:8000</p>
       <p>Opening index.html straight from disk will not work, because the browser blocks <code>fetch("pools.json")</code> on file:// pages.</p>
 
@@ -209,6 +206,5 @@
     </article>
   </section>
 </div>
-<script src="game.js"></script>
-</body>
-</html>
+</div>
+<script type="module" src="web.js"></script>

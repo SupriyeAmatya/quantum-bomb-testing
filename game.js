@@ -1,8 +1,7 @@
-// Venture Bomb — game logic. Every test outcome is drawn from pools.json, which
+// TRs Quantum Bomb Testing — game logic. Every test outcome is drawn from pools.json, which
 // holds real Qiskit shots (see generate_pools.py). The browser never decides
 // an outcome itself; animation only illustrates the outcome it was handed.
-(() => {
-'use strict';
+export function startGame(root, { loadPools, loadNoise }) {
 
 // ---------- levels ----------
 const LEVELS = {
@@ -19,7 +18,8 @@ const CRATE_SIZE = 5;
 const PTS = { live: 10, dud: 3, boom: -15, wrong: -20 };
 
 // ---------- helpers ----------
-const $ = id => document.getElementById(id);
+// Look elements up inside the game's own root, so the page can sit inside another page (Qollab).
+const $ = id => root.querySelector('#' + id);
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const tween = (ms, fn) => new Promise(res => {
   if (reduce) { fn(1); return res(); }
@@ -61,9 +61,9 @@ function newCrate(level, no = 1) {
 const isOpen = b => b.status === 'sealed' || b.status === 'unknown';
 
 // ---------- tabs ----------
-document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+root.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
 function showView(v) {
-  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  root.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
   $('view-play').hidden = v !== 'play';
   $('view-about').hidden = v !== 'about';
 }
@@ -463,20 +463,21 @@ function renderResults(res) {
 }
 
 // ---------- boot ----------
-const getJSON = url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`); return r.json(); });
+// The loaders hide where the data comes from: fetch() in a normal web page (web.js),
+// or Python reading the project files on Qollab (main.js + shipped_data.py).
 startLevel(1);
-getJSON('pools.json')
+loadPools()
   .then(pools => { data = pools; })
   .catch(err => {
     console.error(err);
-    $('source').textContent = 'Could not load pools.json. Run "python generate_pools.py", then serve this folder with "python -m http.server" and open localhost:8000.';
-    msg = { cls: 'boom', title: 'No shot pools', text: 'The game needs pools.json to draw real Qiskit shots. Run it from a local web server, not from file://.' };
+    $('source').textContent = 'Could not load the Qiskit shot pools (pools.json). Run "python generate_pools.py", then serve this folder with "python -m http.server" and open localhost:8000.';
+    msg = { cls: 'boom', title: 'No shot pools', text: 'The game needs pools.json to draw real Qiskit shots.' };
   })
   .then(() => render());
-getJSON('noise_results.json')
+loadNoise()
   .then(renderResults)
   .catch(err => {
     console.error(err);
     $('noiseChart').innerHTML = '<text x="20" y="40">Run "python noise_study.py" to create noise_results.json.</text>';
   });
-})();
+}

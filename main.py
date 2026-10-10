@@ -1,4 +1,4 @@
-"""Venture Bomb on Qollab: press Run.
+"""TRs Quantum Bomb Testing on Qollab: press Run.
 
 Runs the Elitzur-Vaidman bomb tester circuits from bomb.py on the simulator,
 checks the safe-proof rates against theory, then inspects one crate of five

@@ -1,0 +1,6 @@
+# TRs Quantum Bomb Testing dependencies. Install with: pip install -r requirements.txt
+# main.py and bomb.py need only qiskit and numpy (enough for Qollab's playground).
+# qiskit-aer is for generate_pools.py and noise_study.py, which run on your own computer.
+qiskit>=1.2
+numpy>=1.24
+qiskit-aer>=0.15
