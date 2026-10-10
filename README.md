@@ -107,6 +107,6 @@ Every result is announced in words through an `aria-live` region and shown as an
 - P. G. Kwiat et al., "High-efficiency quantum interrogation measurements via the quantum Zeno effect," *Physical Review Letters* 83, 4725 (1999).
 - Built with [Qiskit](https://www.ibm.com/quantum/qiskit) and [Qiskit Aer](https://github.com/Qiskit/qiskit-aer).
 - Fonts: Big Shoulders Stencil Display, Atkinson Hyperlegible and JetBrains Mono (Google Fonts).
-- AI help: the hackathon build guide, the circuits, the game code and this project page were written with help from Claude (Anthropic).
+- AI help: the circuits, the game code were written with help from Claude (Anthropic).
 
 This effort is supported by Qollab & IonQ
